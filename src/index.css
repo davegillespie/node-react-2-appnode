@@ -54,3 +54,7 @@ code {
   display: flex;
 }
 
+.form {
+  padding: 5px;
+}
+

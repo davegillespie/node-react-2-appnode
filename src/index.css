@@ -50,11 +50,40 @@ code {
   background-color: gainsboro;
 }
 
+.sidebarbtn {
+  text-decoration: none;
+  color: black;
+}
+.sidebarbtn:hover {
+  text-decoration: none;
+  color: black;
+}
+
+#dropdownMenuButton {
+  border: none;
+  padding-right: 10px !important;
+  width: 145px !important;
+  text-align: left !important;
+}
+
+#dropdownMenuButton:hover {
+  border-right: 5px solid dimgray !important;
+  background-color: gainsboro !important; 
+  padding-right: 10px !important;
+  width: 145px !important;
+  text-align: left !important;
+}
+
 .app-side {
   display: flex;
 }
 
-.form {
-  padding: 5px;
+.form-group {
+  padding: 2px;
 }
+
+.navbar-menu {
+ float: right !important;
+}
+
 

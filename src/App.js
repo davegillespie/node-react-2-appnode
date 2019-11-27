@@ -7,8 +7,10 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Form from './module/form';
 import List from './module/list';
 import Edit from './module/edit';
+import ShipmentList from './module/shipmentList';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
+import Home from './components/Home';
 
 import { Auth } from 'aws-amplify';
 import LogIn from './components/auth/LogIn';
@@ -82,10 +84,13 @@ async componentDidMount() {
             <div class="container py-4 max-width">
               <div class="row">
               <Switch>
-                <Route path="/" exact component={List} />
-                <Route path="/form" component={Form} />
-                <Route path="/edit/:id" component={Edit} />
+                <Route path="/list" render={(props) => <List {...props} module={authProps} />} />
+                <Route path="/form" render={(props) => <Form {...props} module={authProps} />} />
+                <Route path="/edit/:id" render={(props) => <Edit {...props} module={authProps} />} />
 
+                <Route path="/shipment-list" render={(props) => <ShipmentList {...props} module={authProps} />} />
+
+                <Route exact path="/" render={(props) => <Home {...props} auth={authProps} />} />
                 <Route exact path="/login" render={(props) => <LogIn {...props} auth={authProps} />} />
                 <Route exact path="/register" render={(props) => <Register {...props} auth={authProps} />} />
                 <Route exact path="/forgotpassword" render={(props) => <ForgotPassword {...props} auth={authProps} />} />

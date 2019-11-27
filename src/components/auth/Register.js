@@ -143,7 +143,7 @@ class Register extends Component {
             </div>
             <div className="field">
               <p className="control">
-                <button className="button is-success">
+                <button className="btn btn-info">
                   Register
                 </button>
               </p>

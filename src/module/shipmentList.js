@@ -12,12 +12,12 @@ import 'sweetalert2/src/sweetalert2.scss'
 
 const baseUrl = "http://localhost:3000"
 
-class listComponent extends React.Component  {
+class shipmentListComponent extends React.Component  {
 
   constructor(props){
     super(props);
     this.state = {
-      listOrder:[]
+      listShipment:[]
     }
   }
 
@@ -41,15 +41,15 @@ class listComponent extends React.Component  {
 
 
   componentDidMount() {
-    this.loadOrder()
+    this.loadShip()
   }
-    loadOrder(){
-        const url = baseUrl+"/order/list"
+    loadShip(){
+        const url = baseUrl+"/shipment/shipmentList"
         axios.get(url)
         .then(res => {
           if (res.data.success) {
             const data = res.data.data
-            this.setState({listOrder:data})
+            this.setState({listShipment:data})
           }
           else {
             alert("Error web service");
@@ -64,7 +64,7 @@ class listComponent extends React.Component  {
   {
     return (
     <div>
-      <Link className="btn btn-info"  to="/form">Add Order</Link>
+      <Link className="btn btn-warning"  to="/">Add Dispatch</Link>
       <table class="table table-hover table-striped table-sm p-4" >
         <thead class="thead-dark">
           <tr>
@@ -94,6 +94,8 @@ class listComponent extends React.Component  {
             <th scope="col">Delivery Zip</th>
             <th scope="col">Delivery Phone</th>
             <th scope="col">Delivery Email</th>
+            <th scope="col">Carrier</th>
+            <th scope="col">Rate</th>
 
             <th colspan="2">Action</th>
           </tr>
@@ -108,10 +110,10 @@ class listComponent extends React.Component  {
 
   loadFillData(){
 
-    return this.state.listOrder.map((data)=>{
+    return this.state.listShipment.map((data)=>{
       return(
         <tr>
-          <td><button className="btn btn-outline-info" onClick={()=>this.onShip(data)}>Ship</button></td>
+          <td><button className="btn btn-outline-info" onClick={()=>this.onDispatch(data)}>Dispatch</button></td>
           <td>{data.id}</td>
           <td>{data.pickupFacility}</td>
           <td>{data.pickupAddress}</td>
@@ -137,6 +139,8 @@ class listComponent extends React.Component  {
           <td>{data.deliveryZip}</td>
           <td>{data.deliveryPhone}</td>
           <td>{data.deliveryEmail}</td>
+          <td>{data.carrier}</td>
+          <td>{data.rate}</td>
 
 
 
@@ -172,22 +176,22 @@ class listComponent extends React.Component  {
     })
   }
 
-  sendDelete(orderId)
+  sendDelete(shipId)
   {
     // url de backend
-    const baseUrl = "http://localhost:3000/order/delete"    // parameter data post
+    const baseUrl = "http://localhost:3000/shipment/delete"    // parameter data post
     // network
     axios.post(baseUrl,{
-      id:orderId
+      id:shipId
     })
     .then(response =>{
       if (response.data.success) {
         Swal.fire(
           'Deleted!',
-          'Your order has been deleted.',
+          'Your shipment has been deleted.',
           'success'
         )
-        this.loadOrder()
+        this.loadShipment()
       }
     })
     .catch ( error => {
@@ -200,7 +204,7 @@ class listComponent extends React.Component  {
 
   
 
-  onShip(data) {
+  onDispatch(data) {
     Swal.fire({
       title: 'Are you sure?',
       text: '',
@@ -261,10 +265,10 @@ class listComponent extends React.Component  {
       if (response.data.success) {
         Swal.fire(
           'Staged!',
-          'Your order has been sent to Shipments.',
+          'Your Shipment has been Dispatched!',
           'success'
         )
-        this.loadOrder()
+        this.loadShipment()
       }
     })
     .catch ( error => {
@@ -280,4 +284,4 @@ class listComponent extends React.Component  {
 
 }
 
-export default listComponent;
+export default shipmentListComponent;

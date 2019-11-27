@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Transition } from 'react-transition-group'
-
+import { Link } from "react-router-dom";
 
 const duration = 1000
 const sidebarStyle = {
@@ -34,28 +34,32 @@ export default class SidebarContent extends Component {
           <div className="sidebar-link">Contact</div> */}
 
 
-        <div className="sidebar-link"><a href="#!/orders-list"> Orders</a></div>
-        <div className="sidebar-link"><a href="#!/shipments-list">Shipments</a></div>
-        <div className="sidebar-link"><a href="#!/dispatches">Dispatches</a></div>
-                  
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MacroView</a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">        
-            <div className="sidebar-link"><a class="dropdown-item" href="#">Inbounds</a></div>
-            <div className="sidebar-link"><a class="dropdown-item" href="#">Outbounds</a></div>
-            <div className="sidebar-link"><a class="dropdown-item" href="#">Warehouses</a></div>
+        <div className="sidebar-link"><Link className="sidebarbtn" to="/list">Orders</Link></div>
+        <div className="sidebar-link"><Link className="sidebarbtn" to="/shipment-list">Shipments</Link></div>
+        <div className="sidebar-link"><a href="#!/dispatches" className="sidebarbtn">Dispatches</a></div>
+
+        <div className="dropdown">
+        <button className="sidebar-link dropdown-toggle bg-light" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MacroView</button>
+          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">       
+            <div className="sidebar-link"><a href="#" className="sidebarbtn">Inbounds</a></div>
+            <div className="sidebar-link"><a href="#" className="sidebarbtn">Outbounds</a></div>
+            <div className="sidebar-link"><a href="#" className="sidebarbtn">Warehouses</a></div>
           </div>
+        </div>
                   
-        <div className="sidebar-link"><a href="#!/analytics">Analytics</a></div>
-        <div className="sidebar-link"><a href="#!/locations">Locations</a></div>
-        <div className="sidebar-link"><a href="#!/carriers">Carriers</a></div>
+        <div className="sidebar-link"><a href="#!/analytics" className="sidebarbtn">Analytics</a></div>
+        <div className="sidebar-link"><a href="#!/locations" className="sidebarbtn">Locations</a></div>
+        <div className="sidebar-link"><a href="#!/carriers" className="sidebarbtn">Carriers</a></div>
         
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"> 
-            <div className="sidebar-link"><a href="#!/employees">Employees</a></div>
-            <div className="sidebar-link"><a href="#!/equipment">Equipment</a></div>
-            <div className="sidebar-link"><a href="#!/accountspay">Accounts Pay</a></div>
-            <div className="sidebar-link"><a href="#!/accountsrec">Accounts Rec</a></div>
+        <div class="dropdown">
+          <button className="sidebar-link dropdown-toggle bg-light" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> 
+            <div className="sidebar-link"><a href="#!/employees" className="sidebarbtn">Employees</a></div>
+            <div className="sidebar-link"><a href="#!/equipment" className="sidebarbtn">Equipment</a></div>
+            <div className="sidebar-link"><a href="#!/accountspay" className="sidebarbtn">Accounts Pay</a></div>
+            <div className="sidebar-link"><a href="#!/accountsrec" className="sidebarbtn">Accounts Rec</a></div>
           </div>
+        </div>
         
         </div>
        

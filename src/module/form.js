@@ -42,7 +42,7 @@ class FormComponent extends React.Component{
    return (
       <div class="container px-4">
       <h4>Pickup Details:</h4>
-       <div class="form-row">
+      <div class="form-row">
          <div class="form-group ">          
            <input type="text" class="form-control"  placeholder="Pickup Facility" value={this.state.campPickupFacility} onChange={(value)=> this.setState({campPickupFacility:value.target.value})}/>
          </div>
@@ -58,25 +58,24 @@ class FormComponent extends React.Component{
          <div class="form-group ">          
           <input type="number" class="form-control" placeholder="Zip" value={this.state.campPickupZip} onChange={(value)=> this.setState({campPickupZip:value.target.value})}/>
         </div>
-       </div>
-
-       <div class="form-row">
         <div class="form-group">
-          <input type="text" class="form-control" id="inputPhone" placeholder="123-456-7890" value={this.state.campPickupPhone} onChange={(value)=> this.setState({campPickupPhone:value.target.value})}/>
+          <input type="text" class="form-control" id="inputPhone" placeholder="Phone" value={this.state.campPickupPhone} onChange={(value)=> this.setState({campPickupPhone:value.target.value})}/>
         </div>
         <div class="form-group">
           <input type="email" class="form-control" id="inputEmail" placeholder="Email" value={this.state.campPickupEmail} onChange={(value)=> this.setState({campPickupEmail:value.target.value})}/>
         </div>
-       </div>
-       <br/>
-       <br/>
+      </div>
+
+      <br/>
+      <br/>
+
       <h4>Order Details:</h4>
-       <div class="form-row">
+      <div class="form-row">
          <div class="form-group ">
            <input type="date" class="form-control"  placeholder="Pickup Date" value={this.state.campPickupDate} onChange={(value)=> this.setState({campPickupDate:value.target.value})}/>
          </div>
          <div class="form-group ">
-           <input type="date" class="form-control"  placeholder="Delivery Date" value={this.state.campDeliveryDate} onChange={(value)=> this.setState({campDeliveryDate:value.target.value})}/>
+          <input type="date" class="form-control"  placeholder="Delivery Date" value={this.state.campDeliveryDate} onChange={(value)=> this.setState({campDeliveryDate:value.target.value})}/>
          </div>
          <div class="form-group ">
            <input type="text" class="form-control"  placeholder="PO#" value={this.state.campPoNumber} onChange={(value)=> this.setState({campPoNumber:value.target.value})}/>
@@ -108,12 +107,13 @@ class FormComponent extends React.Component{
          <div class="form-group ">
           <input type="number" class="form-control" placeholder="Temperature" value={this.state.campTemperature} onChange={(value)=> this.setState({campTemperature:value.target.value})}/>
         </div>
-       </div>
-        <br/>
-        <br/>
+      </div>
 
-       <h4>Delivery Details:</h4>
-       <div class="form-row ">
+      <br/>
+      <br/>
+
+      <h4>Delivery Details:</h4>
+      <div class="form-row ">
          <div class="form-group ">
            <input type="text" class="form-control"  placeholder="Delivery Facility" value={this.state.campDeliveryFacility} onChange={(value)=> this.setState({campDeliveryFacility:value.target.value})}/>
          </div>
@@ -129,15 +129,13 @@ class FormComponent extends React.Component{
          <div class="form-group ">
           <input type="number" class="form-control" placeholder="Zip" value={this.state.campDeliveryZip} onChange={(value)=> this.setState({campDeliveryZip:value.target.value})}/>
         </div>
-       </div>
-       <div class="form-row">
         <div class="form-group">
-          <input type="text" class="form-control" id="inputPhone" placeholder="123-456-7890" value={this.state.campDeliveryPhone} onChange={(value)=> this.setState({campDeliveryPhone:value.target.value})}/>
+          <input type="text" class="form-control" id="inputPhone" placeholder="Phone" value={this.state.campDeliveryPhone} onChange={(value)=> this.setState({campDeliveryPhone:value.target.value})}/>
         </div>
         <div class="form-group">
           <input type="email" class="form-control" id="inputEmail" placeholder="Email" value={this.state.campDeliveryEmail} onChange={(value)=> this.setState({campDeliveryEmail:value.target.value})}/>
         </div>
-       </div>
+      </div>
 
        <button type="submit" class="btn btn-primary" onClick={()=>this.sendSave()}>Save</button>
     </div>

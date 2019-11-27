@@ -1,25 +1,52 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
+import Form from './module/form';
+import List from './module/list';
+import Edit from './module/edit';
+import Sidebar from './components/Sidebar';
 
 function App() {
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="/" style={{color:'orange',fontWeight:'bold'}}>OWL</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <Link class="nav-link" to="/"> Order List </Link>
+              </li>
+            </ul>
+            <Link class="btn btn-info "  to="/form">Add Order</Link>
+          </div>
+        </nav>
+
+        <div className="app-side">
+         <Sidebar />
+
+            <div class="container py-4 max-width">
+              <div class="row border border-light">
+
+                <Route path="/" exact component={List} />
+                <Route path="/form" component={Form} />
+                <Route path="/edit/:id" component={Edit} />
+              </div>
+            </div>
+
+        </div>
+
+      </div>
+    </Router>
   );
 }
 

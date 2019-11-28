@@ -8,6 +8,7 @@ import Form from './module/form';
 import List from './module/list';
 import Edit from './module/edit';
 import ShipmentList from './module/shipmentList';
+import DispatchList from './module/dispatchList';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
@@ -89,6 +90,7 @@ async componentDidMount() {
                 <Route path="/edit/:id" render={(props) => <Edit {...props} module={authProps} />} />
 
                 <Route path="/shipment-list" render={(props) => <ShipmentList {...props} module={authProps} />} />
+                <Route path="/dispatch-list" render={(props) => <DispatchList {...props} module={authProps} />} />
 
                 <Route exact path="/" render={(props) => <Home {...props} auth={authProps} />} />
                 <Route exact path="/login" render={(props) => <LogIn {...props} auth={authProps} />} />

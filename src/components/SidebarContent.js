@@ -36,7 +36,7 @@ export default class SidebarContent extends Component {
 
         <div className="sidebar-link"><Link className="sidebarbtn" to="/list">Orders</Link></div>
         <div className="sidebar-link"><Link className="sidebarbtn" to="/shipment-list">Shipments</Link></div>
-        <div className="sidebar-link"><a href="#!/dispatches" className="sidebarbtn">Dispatches</a></div>
+        <div className="sidebar-link"><Link className="sidebarbtn" to="/dispatch-list">Dispatches</Link></div>
 
         <div className="dropdown">
         <button className="sidebar-link dropdown-toggle bg-light" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">MacroView</button>

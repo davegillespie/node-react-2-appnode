@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -12,12 +12,12 @@ import 'sweetalert2/src/sweetalert2.scss'
 
 const baseUrl = "http://localhost:3000"
 
-class listComponent extends React.Component  {
+class dispatchListComponent extends React.Component  {
 
   constructor(props){
     super(props);
     this.state = {
-      listOrder:[]
+      listDispatch:[]
     }
   }
 
@@ -41,15 +41,16 @@ class listComponent extends React.Component  {
 
 
   componentDidMount() {
-    this.loadOrder()
+    this.loadDispatch()
   }
-    loadOrder(){
-        const url = baseUrl+"/order/list"
+    loadDispatch(){
+        const url = baseUrl+"/dispatch/list"
         axios.get(url)
         .then(res => {
           if (res.data.success) {
             const data = res.data.data
-            this.setState({listOrder:data})
+            this.setState({listDispatch:data})
+            console.log("data", data);
           }
           else {
             alert("Error web service");
@@ -64,12 +65,15 @@ class listComponent extends React.Component  {
   {
     return (
     <div>
-      <h4 className="text-info">Orders</h4>
-      <Link className="btn btn-info"  to="/form">Add Order</Link>
-      <table class="table table-hover table-striped table-sm p-4" >
+      <h4 className="text-success">Dispatches</h4>
+      <Link className="btn btn-info"  to="/">Add Order</Link>
+      <table class="table table-hover table-responsive table-striped table-sm p-4" >
         <thead class="thead-dark">
           <tr>
             <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col">Carrier</th>
+            <th scope="col">Rate</th>
             <th scope="col">#</th>
             <th scope="col">Pickup Facility</th>
             <th scope="col">Pickup Address</th>
@@ -109,10 +113,15 @@ class listComponent extends React.Component  {
 
   loadFillData(){
 
-    return this.state.listOrder.map((data)=>{
+    return this.state.listDispatch.map((data)=>{
       return(
-        <tr>
-          <td><button className="btn btn-outline-dark" onClick={()=>this.onShip(data)}>Ship</button></td>
+       
+    <Fragment>
+        <tr class="clickable" data-toggle="collapse" id="row1" data-target=".row1">
+          <td><button btn pxy-3>+</button></td>
+          <td><button className="btn btn-outline-primary" onClick={()=>this.onDone(data)}>Done</button></td>
+          <td>{data.carrier}</td>
+          <td>{data.rate}</td>
           <td>{data.id}</td>
           <td>{data.pickupFacility}</td>
           <td>{data.pickupAddress}</td>
@@ -138,9 +147,7 @@ class listComponent extends React.Component  {
           <td>{data.deliveryZip}</td>
           <td>{data.deliveryPhone}</td>
           <td>{data.deliveryEmail}</td>
-
-
-
+        
             <td>
             <Link class="btn btn-outline-info "  to={"/edit/"+data.id} >Edit</Link>
             </td>
@@ -148,6 +155,49 @@ class listComponent extends React.Component  {
             <button class="btn btn-outline-danger" onClick={()=>this.onDelete(data.id)}> Delete </button>
             </td>
           </tr>
+
+          {/* <tr class="collapse row1">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>{data.id}</td>
+          <td>{data.pickupFacility}</td>
+          <td>{data.pickupAddress}</td>
+          <td>{data.pickupCity}</td>
+          <td>{data.pickupState}</td>
+          <td>{data.pickupZip}</td>
+          <td>{data.pickupPhone}</td>
+          <td>{data.pickupEmail}</td>
+
+          <td>{data.pickupDate}</td>
+          <td>{data.deliveryDate}</td>
+          <td>{data.poNumber}</td>
+          <td>{data.quantity}</td>
+          <td>{data.freightType}</td>
+          <td>{data.weight}</td>
+          <td>{data.loadSize}</td>
+          <td>{data.temperature}</td>
+          
+          <td>{data.deliveryFacility}</td>
+          <td>{data.deliveryAddress}</td>
+          <td>{data.deliveryFacility}</td>
+          <td>{data.deliveryState}</td>
+          <td>{data.deliveryZip}</td>
+          <td>{data.deliveryPhone}</td>
+          <td>{data.deliveryEmail}</td>
+        
+            <td>
+            <Link class="btn btn-outline-info "  to={"/edit/"+data.id} >Edit</Link>
+            </td>
+            <td>
+            <button class="btn btn-outline-danger" onClick={()=>this.onDelete(data.id)}> Delete </button>
+            </td>
+          </tr> */}
+          </Fragment>
+  
+
+
       )
     })
   }
@@ -173,22 +223,22 @@ class listComponent extends React.Component  {
     })
   }
 
-  sendDelete(orderId)
+  sendDelete(dispatchId)
   {
     // url de backend
-    const baseUrl = "http://localhost:3000/order/delete"    // parameter data post
+    const baseUrl = "http://localhost:3000/dispatch/delete"    // parameter data post
     // network
     axios.post(baseUrl,{
-      id:orderId
+      id:dispatchId
     })
     .then(response =>{
       if (response.data.success) {
         Swal.fire(
           'Deleted!',
-          'Your order has been deleted.',
+          'Your dispatch has been deleted.',
           'success'
         )
-        this.loadOrder()
+        this.loadDispatch()
       }
     })
     .catch ( error => {
@@ -201,18 +251,18 @@ class listComponent extends React.Component  {
 
   
 
-  onShip(data) {
+  onDone(data) {
     Swal.fire({
       title: 'Are you sure?',
       text: '',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, stage in shipments!',
+      confirmButtonText: 'Yes, load has delivered!',
       cancelButtonText: 'No, not yet.'
     }).then((result) => {
       console.log('result', result);
       if (result.value) {
-        this.sendShip(data)
+        this.sendDone(data)
         console.log('result.value', result.value);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -224,10 +274,10 @@ class listComponent extends React.Component  {
     })
   }
 
-  sendShip(data)
+  sendDone(data)
   {
     // url the backend
-    const baseUrl = "http://localhost:3000/shipment/create"    // parameter data post
+    const baseUrl = "http://localhost:3000/done/create"    // parameter data post
     // network
     axios.post(baseUrl,{
       id: data.id,
@@ -262,10 +312,10 @@ class listComponent extends React.Component  {
       if (response.data.success) {
         Swal.fire(
           'Staged!',
-          'Your order has been sent to Shipments.',
+          'Your Load is now labeled as Done!',
           'success'
         )
-        this.loadOrder()
+        this.loadDispatch()
       }
     })
     .catch ( error => {
@@ -281,4 +331,4 @@ class listComponent extends React.Component  {
 
 }
 
-export default listComponent;
+export default dispatchListComponent;

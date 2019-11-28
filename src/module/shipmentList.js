@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -17,6 +17,8 @@ class shipmentListComponent extends React.Component  {
   constructor(props){
     super(props);
     this.state = {
+      selectCarrier: "",
+      campRate: "",
       listShipment:[]
     }
   }
@@ -41,15 +43,16 @@ class shipmentListComponent extends React.Component  {
 
 
   componentDidMount() {
-    this.loadShip()
+    this.loadShipment()
   }
-    loadShip(){
-        const url = baseUrl+"/shipment/shipmentList"
+    loadShipment(){
+        const url = baseUrl+"/shipment/list"
         axios.get(url)
         .then(res => {
           if (res.data.success) {
             const data = res.data.data
             this.setState({listShipment:data})
+            console.log("data", data);
           }
           else {
             alert("Error web service");
@@ -64,11 +67,15 @@ class shipmentListComponent extends React.Component  {
   {
     return (
     <div>
-      <Link className="btn btn-warning"  to="/">Add Dispatch</Link>
-      <table class="table table-hover table-striped table-sm p-4" >
+      <h4 className="text-dark">Shipments</h4>
+      <Link className="btn btn-info"  to="/">Add Order</Link>
+      <table class="table table-hover table-responsive table-striped table-sm p-4" >
         <thead class="thead-dark">
           <tr>
             <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col">Carrier</th>
+            <th scope="col">Rate</th>
             <th scope="col">#</th>
             <th scope="col">Pickup Facility</th>
             <th scope="col">Pickup Address</th>
@@ -94,8 +101,6 @@ class shipmentListComponent extends React.Component  {
             <th scope="col">Delivery Zip</th>
             <th scope="col">Delivery Phone</th>
             <th scope="col">Delivery Email</th>
-            <th scope="col">Carrier</th>
-            <th scope="col">Rate</th>
 
             <th colspan="2">Action</th>
           </tr>
@@ -112,8 +117,20 @@ class shipmentListComponent extends React.Component  {
 
     return this.state.listShipment.map((data)=>{
       return(
-        <tr>
-          <td><button className="btn btn-outline-info" onClick={()=>this.onDispatch(data)}>Dispatch</button></td>
+       
+    <Fragment>
+        <tr class="clickable" data-toggle="collapse" id="row1" data-target=".row1">
+          <td><button btn pxy-3>+</button></td>
+          <td><button className="btn btn-outline-success" onClick={()=>this.onDispatch(data)}>Dispatch</button></td>
+          <td class="dropdown">
+            <select id="inputCarrier" onChange={(value)=> this.setState({selectCarrier:value.target.value})}>
+              <option selected>Carrier</option>
+              <option>OWL</option>
+              <option>AMST</option>
+              <option>EVXT</option>
+            </select>
+          </td>
+          <td><input type="number" placeholder="$" value={this.state.campRate} onChange={(value)=> this.setState({campRate:value.target.value})}/></td>
           <td>{data.id}</td>
           <td>{data.pickupFacility}</td>
           <td>{data.pickupAddress}</td>
@@ -139,11 +156,7 @@ class shipmentListComponent extends React.Component  {
           <td>{data.deliveryZip}</td>
           <td>{data.deliveryPhone}</td>
           <td>{data.deliveryEmail}</td>
-          <td>{data.carrier}</td>
-          <td>{data.rate}</td>
-
-
-
+        
             <td>
             <Link class="btn btn-outline-info "  to={"/edit/"+data.id} >Edit</Link>
             </td>
@@ -151,6 +164,49 @@ class shipmentListComponent extends React.Component  {
             <button class="btn btn-outline-danger" onClick={()=>this.onDelete(data.id)}> Delete </button>
             </td>
           </tr>
+
+          {/* <tr class="collapse row1">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>{data.id}</td>
+          <td>{data.pickupFacility}</td>
+          <td>{data.pickupAddress}</td>
+          <td>{data.pickupCity}</td>
+          <td>{data.pickupState}</td>
+          <td>{data.pickupZip}</td>
+          <td>{data.pickupPhone}</td>
+          <td>{data.pickupEmail}</td>
+
+          <td>{data.pickupDate}</td>
+          <td>{data.deliveryDate}</td>
+          <td>{data.poNumber}</td>
+          <td>{data.quantity}</td>
+          <td>{data.freightType}</td>
+          <td>{data.weight}</td>
+          <td>{data.loadSize}</td>
+          <td>{data.temperature}</td>
+          
+          <td>{data.deliveryFacility}</td>
+          <td>{data.deliveryAddress}</td>
+          <td>{data.deliveryFacility}</td>
+          <td>{data.deliveryState}</td>
+          <td>{data.deliveryZip}</td>
+          <td>{data.deliveryPhone}</td>
+          <td>{data.deliveryEmail}</td>
+        
+            <td>
+            <Link class="btn btn-outline-info "  to={"/edit/"+data.id} >Edit</Link>
+            </td>
+            <td>
+            <button class="btn btn-outline-danger" onClick={()=>this.onDelete(data.id)}> Delete </button>
+            </td>
+          </tr> */}
+          </Fragment>
+  
+
+
       )
     })
   }
@@ -210,12 +266,12 @@ class shipmentListComponent extends React.Component  {
       text: '',
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, stage in shipments!',
+      confirmButtonText: 'Yes, send load to Dispatch!',
       cancelButtonText: 'No, not yet.'
     }).then((result) => {
       console.log('result', result);
       if (result.value) {
-        this.sendShip(data)
+        this.sendDispatch(data)
         console.log('result.value', result.value);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
@@ -227,13 +283,24 @@ class shipmentListComponent extends React.Component  {
     })
   }
 
-  sendShip(data)
+  sendDispatch(data)
   {
+    if (this.state.selectCarrier=="") {
+      alert("Choose a Carrier")
+    }
+    else if (this.state.campRate=="") {
+      alert("Enter the Rate")
+    }
+    else {
     // url the backend
-    const baseUrl = "http://localhost:3000/shipment/create"    // parameter data post
+    const baseUrl = "http://localhost:3000/dispatch/create"    // parameter data post
     // network
     axios.post(baseUrl,{
       id: data.id,
+
+      carrier : this.state.selectCarrier, 
+      rate : this.state.campRate,
+
       pickupFacility : data.pickupFacility,
       pickupAddress : data.pickupAddress,
       pickupCity : data.pickupCity,
@@ -275,6 +342,7 @@ class shipmentListComponent extends React.Component  {
       alert("Error 325 ")
     })
   }
+}
 
 
 

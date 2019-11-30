@@ -49,7 +49,7 @@ export default class SidebarContent extends Component {
                   
         <div className="sidebar-link"><a href="#!/analytics" className="sidebarbtn">Analytics</a></div>
         <div className="sidebar-link"><a href="#!/locations" className="sidebarbtn">Locations</a></div>
-        <div className="sidebar-link"><a href="#!/carriers" className="sidebarbtn">Carriers</a></div>
+        <div className="sidebar-link"><Link className="sidebarbtn" to="/carrier-list">Carriers</Link></div>
         
         <div class="dropdown">
           <button className="sidebar-link dropdown-toggle bg-light" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</button>

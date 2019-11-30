@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 
-const baseUrl = "http://localhost:3000"
+const baseUrl = "http://localhost:3000";
 
 class shipmentListComponent extends React.Component  {
 
@@ -18,10 +18,13 @@ class shipmentListComponent extends React.Component  {
     super(props);
     this.state = {
       selectCarrier: "",
-      campRate: "",
-      listShipment:[]
+      campRate: 0,
+      listShipment:[],
+      listCarrier:[]
     }
   }
+
+
 
     // componentDidMount(){
     //   // const url = "http://192.168.10.1:3000/employee/list"
@@ -51,7 +54,7 @@ class shipmentListComponent extends React.Component  {
         .then(res => {
           if (res.data.success) {
             const data = res.data.data
-            this.setState({listShipment:data})
+            this.setState({listShipment : data})
             console.log("data", data);
           }
           else {
@@ -61,9 +64,27 @@ class shipmentListComponent extends React.Component  {
         .catch(error => {
           alert("Error server" + error);
         })
+        const carriers = baseUrl+"/carrier/list"
+        axios.get(carriers)
+        .then(res => {
+          if (res.data.success) {
+            var carriersFill = res.data.data;
+            this.setState({listCarrier : carriersFill})
+            // console.log("carriersFill", carriersFill);
+          } 
+          else {
+            alert("Error web service");
+          }
+        })
+        .catch(error => {
+          alert("Error server" + error);
+        })
+  
       }
 
+
   render()
+
   {
     return (
     <div>
@@ -113,9 +134,13 @@ class shipmentListComponent extends React.Component  {
     );
   }
 
+   
+
   loadFillData(){
 
-    return this.state.listShipment.map((data)=>{
+    return this.state.listShipment.map((data, carriersFill) => {
+      // console.log("data", data);
+      // console.log("carriersFill", carriersFill);
       return(
        
     <Fragment>
@@ -123,14 +148,9 @@ class shipmentListComponent extends React.Component  {
           <td><button btn pxy-3>+</button></td>
           <td><button className="btn btn-outline-success" onClick={()=>this.onDispatch(data)}>Dispatch</button></td>
           <td class="dropdown">
-            <select id="inputCarrier" onChange={(value)=> this.setState({selectCarrier:value.target.value})}>
-              <option selected>Carrier</option>
-              <option>OWL</option>
-              <option>AMST</option>
-              <option>EVXT</option>
-            </select>
+            <select id="inputCarrier" class="form-control" onChange={(value)=> this.setState({selectCarrier:value.target.value})}><option>Select...</option>{this.loadFillCarrier()}</select>
           </td>
-          <td><input type="number" placeholder="$" value={this.state.campRate} onChange={(value)=> this.setState({campRate:value.target.value})}/></td>
+          <td>{this.inputRate()}</td>
           <td>{data.id}</td>
           <td>{data.pickupFacility}</td>
           <td>{data.pickupAddress}</td>
@@ -209,6 +229,24 @@ class shipmentListComponent extends React.Component  {
 
       )
     })
+
+  }
+
+  loadFillCarrier(){
+    return this.state.listCarrier.map((carriersFill) => {
+      // console.log("carriersFill", carriersFill);
+      return(
+        <Fragment>
+          <option key={carriersFill.carrierName}>{carriersFill.carrierName}</option>
+        </Fragment>
+      )
+    })
+  }
+
+  inputRate(){
+    return(
+      <input type="number"  placeholder="$" value={this.state.campRate} onChange={(value)=> this.setState({campRate:value.target.value})}/>
+    )
   }
 
   onDelete(id){

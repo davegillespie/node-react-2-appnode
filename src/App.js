@@ -7,8 +7,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Form from './module/form';
 import List from './module/list';
 import Edit from './module/edit';
+import CarrierEdit from './module/carrierEdit';
+import CarrierForm from './module/carrierForm';
 import ShipmentList from './module/shipmentList';
 import DispatchList from './module/dispatchList';
+import CarrierList from './module/carrierList';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
@@ -88,9 +91,12 @@ async componentDidMount() {
                 <Route path="/list" render={(props) => <List {...props} module={authProps} />} />
                 <Route path="/form" render={(props) => <Form {...props} module={authProps} />} />
                 <Route path="/edit/:id" render={(props) => <Edit {...props} module={authProps} />} />
+                <Route path="/carrier-edit/:id" render={(props) => <CarrierEdit {...props} module={authProps} />} />
+                <Route path="/carrier-form" render={(props) => <CarrierForm {...props} module={authProps} />} />
 
                 <Route path="/shipment-list" render={(props) => <ShipmentList {...props} module={authProps} />} />
                 <Route path="/dispatch-list" render={(props) => <DispatchList {...props} module={authProps} />} />
+                <Route path="/carrier-list" render={(props) => <CarrierList {...props} module={authProps} />} />
 
                 <Route exact path="/" render={(props) => <Home {...props} auth={authProps} />} />
                 <Route exact path="/login" render={(props) => <LogIn {...props} auth={authProps} />} />

@@ -75,7 +75,7 @@ class EditComponent extends React.Component{
          campDeliveryEmail: data.deliveryEmail,
 
         })
-        console.log(JSON.stringify(data.role.role))
+        // console.log(JSON.stringify(data.role.role))
       }
       else {
         alert("Error web service")

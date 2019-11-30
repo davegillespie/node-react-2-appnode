@@ -18,12 +18,11 @@ class shipmentListComponent extends React.Component  {
     super(props);
     this.state = {
       selectCarrier: "",
-      campRate: 0,
+      campRate: "",
       listShipment:[],
       listCarrier:[]
     }
   }
-
 
 
     // componentDidMount(){
@@ -151,6 +150,7 @@ class shipmentListComponent extends React.Component  {
             <select id="inputCarrier" class="form-control" onChange={(value)=> this.setState({selectCarrier:value.target.value})}><option>Select...</option>{this.loadFillCarrier()}</select>
           </td>
           <td>{this.inputRate()}</td>
+         
           <td>{data.id}</td>
           <td>{data.pickupFacility}</td>
           <td>{data.pickupAddress}</td>
@@ -245,9 +245,12 @@ class shipmentListComponent extends React.Component  {
 
   inputRate(){
     return(
-      <input type="number"  placeholder="$" value={this.state.campRate} onChange={(value)=> this.setState({campRate:value.target.value})}/>
+      <Fragment>
+      <input type="number"  placeholder="$" onChange={(value)=> this.setState({campRate:value.target.value})} />
+      </Fragment>
     )
   }
+ 
 
   onDelete(id){
     Swal.fire({
@@ -326,9 +329,9 @@ class shipmentListComponent extends React.Component  {
     if (this.state.selectCarrier=="") {
       alert("Choose a Carrier")
     }
-    else if (this.state.campRate=="") {
-      alert("Enter the Rate")
-    }
+    // else if (this.state.campRate=="") {
+    //   alert("Enter the Rate")
+    // }
     else {
     // url the backend
     const baseUrl = "http://localhost:3000/dispatch/create"    // parameter data post
@@ -369,7 +372,7 @@ class shipmentListComponent extends React.Component  {
       console.log('response', response);
       if (response.data.success) {
         Swal.fire(
-          'Staged!',
+          'Confirmed!',
           'Your Shipment has been Dispatched!',
           'success'
         )

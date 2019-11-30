@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import axios from 'axios';
+
+const baseUrl = "http://localhost:3000";
 
 class FormComponent extends React.Component{
 
@@ -32,19 +34,51 @@ class FormComponent extends React.Component{
       campDeliveryState: "",
       campDeliveryZip: "",
       campDeliveryPhone: "",
-      campDeliveryEmail: ""
+      campDeliveryEmail: "",
+      listWarehouse: []
     }
   }
 
+
+
+  componentDidMount() {
+    this.loadWarehouse()
+  }
+    loadWarehouse(){
+        const warehouses = baseUrl+"/warehouse/list"
+        axios.get(warehouses)
+        .then(res => {
+          if (res.data.success) {
+            var warehousesFill = res.data.data;
+            this.setState({listWarehouse : warehousesFill})
+            console.log("warehousesFill", warehousesFill);
+          } 
+          else {
+            alert("Error web service");
+          }
+        })
+        .catch(error => {
+          alert("Error server" + error);
+        })
+  
+      }
+
+
  render(){
+
+
   // let userId = 0;
   // let userId = this.props.match.params.employeeId;
    return (
       <div class="container px-4">
       <h4>Pickup Details:</h4>
       <div class="form-row">
-         <div class="form-group ">          
-           <input type="text" class="form-control"  placeholder="Pickup Facility" value={this.state.campPickupFacility} onChange={(value)=> this.setState({campPickupFacility:value.target.value})}/>
+         <div class="form-group "> 
+         
+         <input list="locations" type="text" autocomplete="on" class="form-control" placeholder="Pickup Facility" value={this.state.campPickupFacility} onChange={(value)=> this.setState({campPickupFacility:value.target.value})}
+           />  <datalist id="locations"> {this.loadFillWarehouse()}</datalist> 
+
+           {/* <input type="text" class="form-control"  placeholder="Pickup Facility" value={this.state.campPickupFacility} onChange={(value)=> this.setState({campPickupFacility:value.target.value})}/> */}
          </div>
          <div class="form-group ">          
            <input type="text" class="form-control"  placeholder="Pickup Address" value={this.state.campPickupAddress} onChange={(value)=> this.setState({campPickupAddress:value.target.value})}/>
@@ -142,6 +176,19 @@ class FormComponent extends React.Component{
     
    );
  }
+
+
+     loadFillWarehouse(){
+        return this.state.listWarehouse.map((warehousesFill) => {
+          console.log("warehousesFill", warehousesFill);
+          return(
+            <Fragment>
+              <option key={warehousesFill.warehouseName}>{warehousesFill.warehouseName}</option>
+            </Fragment>
+          )
+        })
+      }
+
 
     sendSave(){
 

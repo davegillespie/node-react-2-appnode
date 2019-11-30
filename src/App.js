@@ -9,9 +9,12 @@ import List from './module/list';
 import Edit from './module/edit';
 import CarrierEdit from './module/carrierEdit';
 import CarrierForm from './module/carrierForm';
+import WarehouseEdit from './module/warehouseEdit';
+import WarehouseForm from './module/warehouseForm';
 import ShipmentList from './module/shipmentList';
 import DispatchList from './module/dispatchList';
 import CarrierList from './module/carrierList';
+import WarehouseList from './module/warehouseList';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
@@ -93,10 +96,13 @@ async componentDidMount() {
                 <Route path="/edit/:id" render={(props) => <Edit {...props} module={authProps} />} />
                 <Route path="/carrier-edit/:id" render={(props) => <CarrierEdit {...props} module={authProps} />} />
                 <Route path="/carrier-form" render={(props) => <CarrierForm {...props} module={authProps} />} />
+                <Route path="/warehouse-edit/:id" render={(props) => <WarehouseEdit {...props} module={authProps} />} />
+                <Route path="/warehouse-form" render={(props) => <WarehouseForm {...props} module={authProps} />} />
 
                 <Route path="/shipment-list" render={(props) => <ShipmentList {...props} module={authProps} />} />
                 <Route path="/dispatch-list" render={(props) => <DispatchList {...props} module={authProps} />} />
                 <Route path="/carrier-list" render={(props) => <CarrierList {...props} module={authProps} />} />
+                <Route path="/warehouse-list" render={(props) => <WarehouseList {...props} module={authProps} />} />
 
                 <Route exact path="/" render={(props) => <Home {...props} auth={authProps} />} />
                 <Route exact path="/login" render={(props) => <LogIn {...props} auth={authProps} />} />

@@ -43,12 +43,12 @@ export default class SidebarContent extends Component {
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">       
             <div className="sidebar-link"><a href="#" className="sidebarbtn">Inbounds</a></div>
             <div className="sidebar-link"><a href="#" className="sidebarbtn">Outbounds</a></div>
-            <div className="sidebar-link"><a href="#" className="sidebarbtn">Warehouses</a></div>
+            {/* <div className="sidebar-link"><a href="#" className="sidebarbtn">Warehouses</a></div> */}
           </div>
         </div>
                   
         <div className="sidebar-link"><a href="#!/analytics" className="sidebarbtn">Analytics</a></div>
-        <div className="sidebar-link"><a href="#!/locations" className="sidebarbtn">Locations</a></div>
+        <div className="sidebar-link"><Link className="sidebarbtn" to="/warehouse-list">Warehouses</Link></div>
         <div className="sidebar-link"><Link className="sidebarbtn" to="/carrier-list">Carriers</Link></div>
         
         <div class="dropdown">

@@ -1,10 +1,13 @@
+// import React from 'react';
 import React, { Fragment } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import axios from 'axios';
+// import WarehouseFill from './warehouseFill'
 
 const baseUrl = "http://localhost:3000";
+var invalidEntries = 0;
 
 class FormComponent extends React.Component{
 
@@ -35,23 +38,25 @@ class FormComponent extends React.Component{
       campDeliveryZip: "",
       campDeliveryPhone: "",
       campDeliveryEmail: "",
+      selected: "",
+      zero: 0,
       listWarehouse: []
     }
   }
 
 
 
-  componentDidMount() {
-    this.loadWarehouse()
-  }
-    loadWarehouse(){
-        const warehouses = baseUrl+"/warehouse/list"
-        axios.get(warehouses)
+componentDidMount() {
+        const url = baseUrl+"/warehouse/list"
+        axios.get(url)
         .then(res => {
           if (res.data.success) {
-            var warehousesFill = res.data.data;
-            this.setState({listWarehouse : warehousesFill})
-            console.log("warehousesFill", warehousesFill);
+            const warehouse = res.data.data;
+            this.setState({    
+              listWarehouse : warehouse
+            })
+            console.log("warehouse", warehouse);
+            // console.log("res.data", res.data)
           } 
           else {
             alert("Error web service");
@@ -60,43 +65,294 @@ class FormComponent extends React.Component{
         .catch(error => {
           alert("Error server" + error);
         })
+}
+
+  // componentDidMount() {
+  //   this.loadWarehouse()
+  // }
+  //   loadWarehouse(){
+  //       const url = baseUrl+"/warehouse/list"
+  //       axios.get(url)
+  //       .then(res => {
+  //         if (res.data.success) {
+  //           const warehouse = res.data.data;
+  //           this.setState({    
+  //             listWarehouse : warehouse
+  //           })
+  //           console.log("warehouse", warehouse);
+  //         } 
+  //         else {
+  //           alert("Error web service");
+  //         }
+  //       })
+  //       .catch(error => {
+  //         alert("Error server" + error);
+  //       })
+  //     }
   
-      }
+    // loadFillWarehouse(){
+      
+    //   return this.state.listWarehouse.map((warehouse, index, arr) => {
+     
+    //     console.log("warehouse", warehouse);
+    //     console.log("index", index);
+    //     console.log("arr", arr);
+        
+    //     return(
+    //       <Fragment>
+    //         <select key={warehouse.id}>
+    //         <option key={warehouse.id}>{warehouse.warehouseName}</option>
+    //         </select>
+    //       </Fragment>
+    //     )
+       
+    //   })
+    // }
 
 
- render(){
+
+async handleChange(event) {
+  const selectedItem = event.target.value;
+    this.setState({
+      selected: selectedItem
+    });
+ 
+    this.state.listWarehouse.map((item, idx) => {
+      console.log("item", item)
+      // console.log("this.state.listWarehouse", this.state.listWarehouse)
+      console.log("selectedItem", selectedItem)
+     
+      const index = idx + 1;
+      // let check = -1
+      for (var i = 0; i < this.state.listWarehouse.length; i++){
+        // console.log("this.state.listWarehouse[check].warehouseAddress", this.state.listWarehouse[index].warehouseAddress)
+        if (selectedItem == index) {
+        this.setState({ 
+          campPickupAddress: this.state.listWarehouse[idx].warehouseAddress,
+          campPickupCity: this.state.listWarehouse[idx].warehouseCity,
+          campPickupState: this.state.listWarehouse[idx].warehouseState,
+          campPickupZip: this.state.listWarehouse[idx].warehouseZip,
+          campPickupPhone: this.state.listWarehouse[idx].warehousePhone,
+          campPickupEmail: this.state.listWarehouse[idx].warehouseEmail 
+        });
+       
+        console.log("this.state.listWarehouse[idx].warehouseAddress", this.state.listWarehouse[idx].warehouseAddress)
+          
+        
+        } 
+        else if (selectedItem == 0) {
+          this.setState({ 
+            campPickupAddress: "",
+            campPickupCity: "",
+            campPickupState: "",
+            campPickupZip: "",
+            campPickupPhone: "",
+            campPickupEmail: "",
+          });
+          return console.log('just hoping it works and doesnt forever loop')
+        }
+      
+    }  
+      
+      // for (var i = 0; i < this.state.listWarehouse[idx].length; i++){
+      // if ( this.state.selectedItem === idx) {
+      //   console.log("inside if selectItem", this.state.selectedItem)
+      //   console.log("inside if idx", idx)
+      //     this.setState({ 
+      //           campPickupAddress: this.state.listWarehouse[idx].warehouseAddress,
+      //           campPickupCity: this.state.listWarehouse[idx].warehouseCity,
+      //           campPickupState: this.state.listWarehouse[idx].warehouseState,
+      //           campPickupZip: this.state.listWarehouse[idx].warehouseZip,
+      //           campPickupPhone: this.state.listWarehouse[idx].warehousePhone,
+      //           campPickupEmail: this.state.listWarehouse[idx].warehouseEmail 
+      //         });
+      //     // console.log("i = ", this.state.selected, "listWarehouse", this.state.listWarehouse[i])
+      //     index = i
+      //     break;
+      //       }
+        
+      //   console.log("i = ", this.state.selected, "idx", idx.warehouseAddress)
+      // }
+     
+      // if (this.state.selected === this.state.listWarehouse.id ){
+
+      //           return console.log("item selected", item.id)
+              
+      //         } 
+    
+  
+    // invalidEntries++;
+    // return false;
+  })
+// this.autoFill();
+}
 
 
-  // let userId = 0;
-  // let userId = this.props.match.params.employeeId;
-   return (
-      <div class="container px-4">
+// autoFill() {
+//   this.state.listWarehouse.filter((warehouse) => {
+//       console.log("warehouse", warehouse)
+//       console.log("warehouse.warehouseAddress", warehouse.warehouseAddress)
+//       if (warehouse.id && warehouse.id !== 0) {
+//         return true;
+//       } 
+//       invalidEntries++;
+//       return false;
+    //   do {
+    //   this.setState({ 
+    //     campPickupAddress: warehouse.warehouseAddress,
+    //     campPickupCity: warehouse.warehouseCity,
+    //     campPickupState: warehouse.warehouseState,
+    //     campPickupZip: warehouse.warehouseZip,
+    //     campPickupPhone: warehouse.warehousePhone,
+    //     campPickupEmail: warehouse.warehouseEmail 
+    //   });
+    //   if (warehouse.warehouseName === this.state.search)
+    //   break;
+    //   console.log(this.state.search.length)
+    // }
+    // while (warehouse.warehouseName === this.state.search)
+//   })
+// }
+  
+
+
+
+// autoFill() {
+//   this.state.listWarehouse.map((warehouse, i, arr) => {
+//       console.log("warehouse.id", warehouse)
+//       console.log("warehouse", warehouse.warehouseAddress)
+    //   do {
+    //   this.setState({ 
+    //     campPickupAddress: warehouse.warehouseAddress,
+    //     campPickupCity: warehouse.warehouseCity,
+    //     campPickupState: warehouse.warehouseState,
+    //     campPickupZip: warehouse.warehouseZip,
+    //     campPickupPhone: warehouse.warehousePhone,
+    //     campPickupEmail: warehouse.warehouseEmail 
+    //   });
+    //   if (warehouse.warehouseName === this.state.search)
+    //   break;
+    //   console.log(this.state.search.length)
+    // }
+    // while (warehouse.warehouseName === this.state.search)
+//   })
+// }
+
+
+// onKeyDown(event){
+//   if (event.keyCode == 8) {
+//    console.log('this works I guess')
+//    this.setState(this.baseState)
+//   }
+// }
+
+
+render(){
+
+// var filteredWarehouses = this.props.listWarehouse.filter();
+
+  return (
+    
+    <div class="container px-4">
+
       <h4>Pickup Details:</h4>
       <div class="form-row">
-         <div class="form-group "> 
-         
-         <input list="locations" type="text" autocomplete="on" class="form-control" placeholder="Pickup Facility" value={this.state.campPickupFacility} onChange={(value)=> this.setState({campPickupFacility:value.target.value})}
-           />  <datalist id="locations"> {this.loadFillWarehouse()}</datalist> 
+        <div class="form-group">
 
-           {/* <input type="text" class="form-control"  placeholder="Pickup Facility" value={this.state.campPickupFacility} onChange={(value)=> this.setState({campPickupFacility:value.target.value})}/> */}
-         </div>
-         <div class="form-group ">          
-           <input type="text" class="form-control"  placeholder="Pickup Address" value={this.state.campPickupAddress} onChange={(value)=> this.setState({campPickupAddress:value.target.value})}/>
-         </div>
-         <div class="form-group ">          
-           <input type="text" class="form-control"  placeholder="City" value={this.state.campPickupCity} onChange={(value)=> this.setState({campPickupCity:value.target.value})}/>
-         </div>
-         <div class="form-group ">          
-           <input type="text" class="form-control"  placeholder="State" value={this.state.campPickupState} onChange={(value)=> this.setState({campPickupState:value.target.value})}/>
-         </div>
-         <div class="form-group ">          
-          <input type="number" class="form-control" placeholder="Zip" value={this.state.campPickupZip} onChange={(value)=> this.setState({campPickupZip:value.target.value})}/>
+
+        <input 
+            list="pickup-data" 
+            type="text" 
+            class="form-control" 
+            placeholder="Pickup Facility"
+            name={this.state.name} 
+            value={this.state.selected} 
+            // onChange={(value)=> this.setState({campPickupFacility:value.target.value})}
+            onChange={this.handleChange.bind(this)}
+            // onKeyDown={this.onKeyDown}
+          /> 
+
+        <datalist id="pickup-data">
+            {
+              this.state.listWarehouse.map((warehouse, ind) => {
+                // console.log(warehouse.warehouseName)
+                // console.log("warehouse", warehouse)
+                console.log("ind", ind)
+                // return <WarehouseFill key={i} value={warehouse.warehouseName}/>
+                return  <select>
+                          <option value={warehouse.id} name={warehouse.id} >{warehouse.id}</option>
+                        </select>
+              })
+            } 
+        </datalist>
+
+        </div>
+      
+        <div class="form-group ">          
+          <input 
+            ref="address" 
+            // key={`${index}`}
+            type="text" 
+            class="form-control"  
+            placeholder="Pickup Address" 
+            value={this.state.campPickupAddress} 
+            onChange={(value)=> this.setState({campPickupAddress:value.target.value})}
+            // onChange={this.handleChange}
+          /> 
+           {/* {this.autoFill()} */}
+          
+        </div>  
+        <div class="form-group ">          
+          <input 
+            id="input3" 
+            type="text" 
+            class="form-control"  
+            placeholder="City" 
+            value={this.state.campPickupCity} 
+            onChange={(value)=> this.setState({campPickupCity:value.target.value})}
+          />
+        </div>        
+        <div class="form-group ">          
+          <input 
+            id="input4" 
+            type="text" 
+            class="form-control"  
+            placeholder="State" 
+            value={this.state.campPickupState} 
+            onChange={(value)=> this.setState({campPickupState:value.target.value})}
+          />
+        </div>
+        <div class="form-group ">          
+          <input 
+            id="input5" 
+            type="number" 
+            class="form-control" 
+            placeholder="Zip" 
+            value={this.state.campPickupZip} 
+            onChange={(value)=> this.setState({campPickupZip:value.target.value})}
+          />
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" id="inputPhone" placeholder="Phone" value={this.state.campPickupPhone} onChange={(value)=> this.setState({campPickupPhone:value.target.value})}/>
+          <input 
+            id="input6" 
+            type="text" 
+            class="form-control" 
+            id="inputPhone" 
+            placeholder="Phone" 
+            value={this.state.campPickupPhone} 
+            onChange={(value)=> this.setState({campPickupPhone:value.target.value})}
+          />
         </div>
         <div class="form-group">
-          <input type="email" class="form-control" id="inputEmail" placeholder="Email" value={this.state.campPickupEmail} onChange={(value)=> this.setState({campPickupEmail:value.target.value})}/>
+          <input 
+            id="input7" 
+            type="email" 
+            class="form-control" 
+            id="inputEmail" 
+            placeholder="Email" 
+            value={this.state.campPickupEmail} 
+            onChange={(value)=> this.setState({campPickupEmail:value.target.value})}
+          />
         </div>
       </div>
 
@@ -105,41 +361,84 @@ class FormComponent extends React.Component{
 
       <h4>Order Details:</h4>
       <div class="form-row">
-         <div class="form-group ">
-           <input type="date" class="form-control"  placeholder="Pickup Date" value={this.state.campPickupDate} onChange={(value)=> this.setState({campPickupDate:value.target.value})}/>
-         </div>
-         <div class="form-group ">
-          <input type="date" class="form-control"  placeholder="Delivery Date" value={this.state.campDeliveryDate} onChange={(value)=> this.setState({campDeliveryDate:value.target.value})}/>
-         </div>
-         <div class="form-group ">
-           <input type="text" class="form-control"  placeholder="PO#" value={this.state.campPoNumber} onChange={(value)=> this.setState({campPoNumber:value.target.value})}/>
-         </div>
-         <div class="form-group ">
-           <input type="number" class="form-control"  placeholder="Quantity" value={this.state.campQuantity} onChange={(value)=> this.setState({campQuantity:value.target.value})}/>
-         </div>
         <div class="form-group ">
-           <select id="inputFreightType" class="form-control" onChange={(value)=> this.setState({selectFreightType:value.target.value})}>
-             <option selected>Type</option>
-             {/* <option selected value={this.state.dataEmployee.roleId}>{this.state.stringRole}</option> */}
-             <option value="1">Cases</option>
-             <option value="2">Pallets</option>
-             <option value="3">MODs</option>
-           </select>
-         </div>
-         <div class="form-group ">
-          <input type="number" class="form-control" placeholder="Weight" value={this.state.campWeight} onChange={(value)=> this.setState({campWeight:value.target.value})}/>
+          <input 
+            type="date" 
+            class="form-control"  
+            placeholder="Pickup Date" 
+            value={this.state.campPickupDate} 
+            onChange={(value)=> this.setState({campPickupDate:value.target.value})}
+          />
         </div>
-         <div class="form-group ">
-           <select id="inputLoadSize" class="form-control" onChange={(value)=> this.setState({selectLoadSize:value.target.value})}>
-             <option selected>Size</option>
+        <div class="form-group ">
+          <input 
+            type="date" 
+            class="form-control" 
+            placeholder="Delivery Date" 
+            value={this.state.campDeliveryDate} 
+            onChange={(value)=> this.setState({campDeliveryDate:value.target.value})}
+          />
+        </div>
+        <div class="form-group ">
+          <input 
+            type="text" 
+            class="form-control"  
+            placeholder="PO#" 
+            value={this.state.campPoNumber} 
+            onChange={(value)=> this.setState({campPoNumber:value.target.value})}
+          />
+        </div>
+        <div class="form-group ">
+          <input 
+            type="number" 
+            class="form-control" 
+            placeholder="Quantity" 
+            value={this.state.campQuantity} 
+            onChange={(value)=> this.setState({campQuantity:value.target.value})}
+          />
+        </div>
+        <div class="form-group ">
+          <select 
+            id="inputFreightType" 
+            class="form-control" 
+            onChange={(value)=> this.setState({selectFreightType:value.target.value})}>
+              <option selected>Type</option>
              {/* <option selected value={this.state.dataEmployee.roleId}>{this.state.stringRole}</option> */}
-             <option value="1">FTL</option>
-             <option value="2">LTL</option>
-             <option value="3">Partial</option>
-           </select>
-         </div>
-         <div class="form-group ">
-          <input type="number" class="form-control" placeholder="Temperature" value={this.state.campTemperature} onChange={(value)=> this.setState({campTemperature:value.target.value})}/>
+              <option value="1">Cases</option>
+              <option value="2">Pallets</option>
+              <option value="3">MODs</option>
+          </select>
+        </div>
+        <div class="form-group ">
+          <input 
+            type="number" 
+            class="form-control" 
+            placeholder="Weight" 
+            value={this.state.campWeight} 
+            onChange={(value)=> this.setState({campWeight:value.target.value})}
+          />
+        </div>
+
+        <div class="form-group ">
+          <select 
+            id="inputLoadSize" 
+            class="form-control" 
+            onChange={(value)=> this.setState({selectLoadSize:value.target.value})}>
+              <option selected>Size</option>
+              {/* <option selected value={this.state.dataEmployee.roleId}>{this.state.stringRole}</option> */}
+              <option value="1">FTL</option>
+              <option value="2">LTL</option>
+              <option value="3">Partial</option>
+          </select>
+        </div>
+        <div class="form-group ">
+          <input 
+            type="number" 
+            class="form-control" 
+            placeholder="Temperature" 
+            value={this.state.campTemperature} 
+            onChange={(value)=> this.setState({campTemperature:value.target.value})}
+          />
         </div>
       </div>
 
@@ -148,46 +447,78 @@ class FormComponent extends React.Component{
 
       <h4>Delivery Details:</h4>
       <div class="form-row ">
-         <div class="form-group ">
-           <input type="text" class="form-control"  placeholder="Delivery Facility" value={this.state.campDeliveryFacility} onChange={(value)=> this.setState({campDeliveryFacility:value.target.value})}/>
+        <div class="form-group ">
+          <input 
+            type="text" 
+            class="form-control"  
+            placeholder="Delivery Facility" 
+            value={this.state.campDeliveryFacility} 
+            onChange={(value)=> this.setState({campDeliveryFacility:value.target.value})}
+          />
+        </div>
+        <div class="form-group ">
+          <input 
+            type="text" 
+            class="form-control"  
+            placeholder="Delivery Address" 
+            value={this.state.campDeliveryAddress} 
+            onChange={(value)=> this.setState({campDeliveryAddress:value.target.value})}
+          />
+        </div>
+        <div class="form-group ">
+          <input 
+            type="text" 
+            class="form-control"  
+            placeholder="City" 
+            value={this.state.campDeliveryCity} 
+            onChange={(value)=> this.setState({campDeliveryCity:value.target.value})}
+          />
+        </div>
+
+        <div class="form-group ">
+          <input 
+            type="text" 
+            class="form-control"  
+            placeholder="State" 
+            value={this.state.campDeliveryState} 
+            onChange={(value)=> this.setState({campDeliveryState:value.target.value})}
+          />
          </div>
-         <div class="form-group ">
-           <input type="text" class="form-control"  placeholder="Delivery Address" value={this.state.campDeliveryAddress} onChange={(value)=> this.setState({campDeliveryAddress:value.target.value})}/>
-         </div>
-         <div class="form-group ">
-           <input type="text" class="form-control"  placeholder="City" value={this.state.campDeliveryCity} onChange={(value)=> this.setState({campDeliveryCity:value.target.value})}/>
-         </div>
-         <div class="form-group ">
-           <input type="text" class="form-control"  placeholder="State" value={this.state.campDeliveryState} onChange={(value)=> this.setState({campDeliveryState:value.target.value})}/>
-         </div>
-         <div class="form-group ">
-          <input type="number" class="form-control" placeholder="Zip" value={this.state.campDeliveryZip} onChange={(value)=> this.setState({campDeliveryZip:value.target.value})}/>
+        <div class="form-group ">
+          <input 
+            type="number" 
+            class="form-control" 
+            placeholder="Zip" 
+            value={this.state.campDeliveryZip} 
+            onChange={(value)=> this.setState({campDeliveryZip:value.target.value})}
+          />
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" id="inputPhone" placeholder="Phone" value={this.state.campDeliveryPhone} onChange={(value)=> this.setState({campDeliveryPhone:value.target.value})}/>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="inputPhone" 
+            placeholder="Phone" 
+            value={this.state.campDeliveryPhone} 
+            onChange={(value)=> this.setState({campDeliveryPhone:value.target.value})}
+          />
         </div>
         <div class="form-group">
-          <input type="email" class="form-control" id="inputEmail" placeholder="Email" value={this.state.campDeliveryEmail} onChange={(value)=> this.setState({campDeliveryEmail:value.target.value})}/>
+          <input 
+            type="email" 
+            class="form-control" 
+            id="inputEmail" 
+            placeholder="Email" 
+            value={this.state.campDeliveryEmail} 
+            onChange={(value)=> this.setState({campDeliveryEmail:value.target.value})}
+          />
         </div>
       </div>
-
-       <button type="submit" class="btn btn-primary" onClick={()=>this.sendSave()}>Save</button>
-    </div>
-    
-   );
- }
-
-
-     loadFillWarehouse(){
-        return this.state.listWarehouse.map((warehousesFill) => {
-          console.log("warehousesFill", warehousesFill);
-          return(
-            <Fragment>
-              <option key={warehousesFill.warehouseName}>{warehousesFill.warehouseName}</option>
-            </Fragment>
-          )
-        })
-      }
+    <button type="submit" class="btn btn-primary" onClick={()=>this.sendSave()}>Save</button>
+  </div>
+     
+    ); 
+  }
 
 
     sendSave(){
@@ -307,6 +638,7 @@ class FormComponent extends React.Component{
       }
 
     }
+
 }
 
 

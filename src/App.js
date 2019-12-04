@@ -11,6 +11,7 @@ import CarrierEdit from './module/carrierEdit';
 import CarrierForm from './module/carrierForm';
 import WarehouseEdit from './module/warehouseEdit';
 import WarehouseForm from './module/warehouseForm';
+
 import ShipmentList from './module/shipmentList';
 import DispatchList from './module/dispatchList';
 import CarrierList from './module/carrierList';
@@ -103,6 +104,7 @@ async componentDidMount() {
                 <Route path="/dispatch-list" render={(props) => <DispatchList {...props} module={authProps} />} />
                 <Route path="/carrier-list" render={(props) => <CarrierList {...props} module={authProps} />} />
                 <Route path="/warehouse-list" render={(props) => <WarehouseList {...props} module={authProps} />} />
+                
 
                 <Route exact path="/" render={(props) => <Home {...props} auth={authProps} />} />
                 <Route exact path="/login" render={(props) => <LogIn {...props} auth={authProps} />} />

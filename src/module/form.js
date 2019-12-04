@@ -1,5 +1,5 @@
-// import React from 'react';
-import React, { Fragment } from 'react';
+import React from 'react';
+// import React, { Fragment } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -7,7 +7,7 @@ import axios from 'axios';
 // import WarehouseFill from './warehouseFill'
 
 const baseUrl = "http://localhost:3000";
-var invalidEntries = 0;
+
 
 class FormComponent extends React.Component{
 
@@ -40,7 +40,6 @@ class FormComponent extends React.Component{
       campDeliveryEmail: "",
       selected: "",
       selectedDelivery: "",
-      zero: 0,
       listWarehouse: []
     }
   }
@@ -48,24 +47,24 @@ class FormComponent extends React.Component{
 
 
 componentDidMount() {
-        const url = baseUrl+"/warehouse/list"
-        axios.get(url)
-        .then(res => {
-          if (res.data.success) {
-            const warehouse = res.data.data;
-            this.setState({    
-              listWarehouse : warehouse
-            })
-            console.log("warehouse", warehouse);
-            // console.log("res.data", res.data)
-          } 
-          else {
-            alert("Error web service");
-          }
-        })
-        .catch(error => {
-          alert("Error server" + error);
-        })
+  const url = baseUrl+"/warehouse/list"
+  axios.get(url)
+  .then(res => {
+    if (res.data.success) {
+      const warehouse = res.data.data;
+      this.setState({    
+        listWarehouse : warehouse
+      })
+      console.log("warehouse", warehouse);
+      // console.log("res.data", res.data)
+    } 
+    else {
+      alert("Error web service");
+    }
+  })
+  .catch(error => {
+    alert("Error server" + error);
+  })
 }
 
   // componentDidMount() {
@@ -243,10 +242,6 @@ render(){
                 } 
             </datalist>
             </div>
-
-
-
-
 
         <div class="form-group">
         <input 

@@ -39,6 +39,7 @@ class FormComponent extends React.Component{
       campDeliveryPhone: "",
       campDeliveryEmail: "",
       selected: "",
+      selectedDelivery: "",
       zero: 0,
       listWarehouse: []
     }
@@ -117,134 +118,91 @@ async handleChange(event) {
       selected: selectedItem
     });
  
-    this.state.listWarehouse.map((item, idx) => {
-      console.log("item", item)
-      // console.log("this.state.listWarehouse", this.state.listWarehouse)
-      console.log("selectedItem", selectedItem)
-     
-      const index = idx + 1;
-      // let check = -1
-      for (var i = 0; i < this.state.listWarehouse.length; i++){
-        // console.log("this.state.listWarehouse[check].warehouseAddress", this.state.listWarehouse[index].warehouseAddress)
-        if (selectedItem == index) {
-        this.setState({ 
-          campPickupAddress: this.state.listWarehouse[idx].warehouseAddress,
-          campPickupCity: this.state.listWarehouse[idx].warehouseCity,
-          campPickupState: this.state.listWarehouse[idx].warehouseState,
-          campPickupZip: this.state.listWarehouse[idx].warehouseZip,
-          campPickupPhone: this.state.listWarehouse[idx].warehousePhone,
-          campPickupEmail: this.state.listWarehouse[idx].warehouseEmail 
-        });
-       
-        console.log("this.state.listWarehouse[idx].warehouseAddress", this.state.listWarehouse[idx].warehouseAddress)
-          
-        
-        } 
-        else if (selectedItem == 0) {
-          this.setState({ 
-            campPickupAddress: "",
-            campPickupCity: "",
-            campPickupState: "",
-            campPickupZip: "",
-            campPickupPhone: "",
-            campPickupEmail: "",
-          });
-          return console.log('just hoping it works and doesnt forever loop')
-        }
-      
-    }  
-      
-      // for (var i = 0; i < this.state.listWarehouse[idx].length; i++){
-      // if ( this.state.selectedItem === idx) {
-      //   console.log("inside if selectItem", this.state.selectedItem)
-      //   console.log("inside if idx", idx)
-      //     this.setState({ 
-      //           campPickupAddress: this.state.listWarehouse[idx].warehouseAddress,
-      //           campPickupCity: this.state.listWarehouse[idx].warehouseCity,
-      //           campPickupState: this.state.listWarehouse[idx].warehouseState,
-      //           campPickupZip: this.state.listWarehouse[idx].warehouseZip,
-      //           campPickupPhone: this.state.listWarehouse[idx].warehousePhone,
-      //           campPickupEmail: this.state.listWarehouse[idx].warehouseEmail 
-      //         });
-      //     // console.log("i = ", this.state.selected, "listWarehouse", this.state.listWarehouse[i])
-      //     index = i
-      //     break;
-      //       }
-        
-      //   console.log("i = ", this.state.selected, "idx", idx.warehouseAddress)
-      // }
-     
-      // if (this.state.selected === this.state.listWarehouse.id ){
-
-      //           return console.log("item selected", item.id)
-              
-      //         } 
+  this.state.listWarehouse.map((item, idx) => {
+    console.log("item", item)
+    // console.log("this.state.listWarehouse", this.state.listWarehouse)
+    console.log("selectedItem", selectedItem)
     
-  
-    // invalidEntries++;
-    // return false;
+    const index = idx + 1;
+    // let check = -1
+    for (var i = 0; i < this.state.listWarehouse.length; i++){
+      // console.log("this.state.listWarehouse[check].warehouseAddress", this.state.listWarehouse[index].warehouseAddress)
+      if (selectedItem == index) {
+      this.setState({ 
+        campPickupFacility: this.state.listWarehouse[idx].warehouseName,
+        campPickupAddress: this.state.listWarehouse[idx].warehouseAddress,
+        campPickupCity: this.state.listWarehouse[idx].warehouseCity,
+        campPickupState: this.state.listWarehouse[idx].warehouseState,
+        campPickupZip: this.state.listWarehouse[idx].warehouseZip,
+        campPickupPhone: this.state.listWarehouse[idx].warehousePhone,
+        campPickupEmail: this.state.listWarehouse[idx].warehouseEmail 
+      });
+      
+      console.log("this.state.listWarehouse[idx].warehouseAddress", this.state.listWarehouse[idx].warehouseAddress)
+      } 
+      else if (selectedItem == 0) {
+        this.setState({ 
+          campPickupFacility: "",
+          campPickupAddress: "",
+          campPickupCity: "",
+          campPickupState: "",
+          campPickupZip: "",
+          campPickupPhone: "",
+          campPickupEmail: "",
+        });
+        return console.log('just hoping it works and doesnt forever loop')
+      } 
+    }  
   })
-// this.autoFill();
 }
 
 
-// autoFill() {
-//   this.state.listWarehouse.filter((warehouse) => {
-//       console.log("warehouse", warehouse)
-//       console.log("warehouse.warehouseAddress", warehouse.warehouseAddress)
-//       if (warehouse.id && warehouse.id !== 0) {
-//         return true;
-//       } 
-//       invalidEntries++;
-//       return false;
-    //   do {
-    //   this.setState({ 
-    //     campPickupAddress: warehouse.warehouseAddress,
-    //     campPickupCity: warehouse.warehouseCity,
-    //     campPickupState: warehouse.warehouseState,
-    //     campPickupZip: warehouse.warehouseZip,
-    //     campPickupPhone: warehouse.warehousePhone,
-    //     campPickupEmail: warehouse.warehouseEmail 
-    //   });
-    //   if (warehouse.warehouseName === this.state.search)
-    //   break;
-    //   console.log(this.state.search.length)
-    // }
-    // while (warehouse.warehouseName === this.state.search)
-//   })
-// }
-  
 
 
 
-// autoFill() {
-//   this.state.listWarehouse.map((warehouse, i, arr) => {
-//       console.log("warehouse.id", warehouse)
-//       console.log("warehouse", warehouse.warehouseAddress)
-    //   do {
-    //   this.setState({ 
-    //     campPickupAddress: warehouse.warehouseAddress,
-    //     campPickupCity: warehouse.warehouseCity,
-    //     campPickupState: warehouse.warehouseState,
-    //     campPickupZip: warehouse.warehouseZip,
-    //     campPickupPhone: warehouse.warehousePhone,
-    //     campPickupEmail: warehouse.warehouseEmail 
-    //   });
-    //   if (warehouse.warehouseName === this.state.search)
-    //   break;
-    //   console.log(this.state.search.length)
-    // }
-    // while (warehouse.warehouseName === this.state.search)
-//   })
-// }
-
-
-// onKeyDown(event){
-//   if (event.keyCode == 8) {
-//    console.log('this works I guess')
-//    this.setState(this.baseState)
-//   }
-// }
+async handleChangeDelivery(event) {
+  const selectedItem = event.target.value;
+    this.setState({
+      selectedDelivery: selectedItem
+    });
+ 
+  this.state.listWarehouse.map((item, idx) => {
+    console.log("item", item)
+    // console.log("this.state.listWarehouse", this.state.listWarehouse)
+    console.log("selectedItem", selectedItem)
+    
+    const index = idx + 1;
+    // let check = -1
+    for (var i = 0; i < this.state.listWarehouse.length; i++){
+      // console.log("this.state.listWarehouse[check].warehouseAddress", this.state.listWarehouse[index].warehouseAddress)
+      if (selectedItem == index) {
+      this.setState({ 
+        campDeliveryFacility: this.state.listWarehouse[idx].warehouseName,
+        campDeliveryAddress: this.state.listWarehouse[idx].warehouseAddress,
+        campDeliveryCity: this.state.listWarehouse[idx].warehouseCity,
+        campDeliveryState: this.state.listWarehouse[idx].warehouseState,
+        campDeliveryZip: this.state.listWarehouse[idx].warehouseZip,
+        campDeliveryPhone: this.state.listWarehouse[idx].warehousePhone,
+        campDeliveryEmail: this.state.listWarehouse[idx].warehouseEmail 
+      });
+      
+      console.log("this.state.listWarehouse[idx].warehouseAddress", this.state.listWarehouse[idx].warehouseAddress)
+      } 
+      else if (selectedItem == 0) {
+        this.setState({ 
+          campDeliveryFacility: "",
+          campDeliveryAddress: "",
+          campDeliveryCity: "",
+          campDeliveryState: "",
+          campDeliveryZip: "",
+          campDeliveryPhone: "",
+          campDeliveryEmail: "",
+        });
+        return console.log('just hoping it works and doesnt forever loop')
+      } 
+    }  
+  })
+}
 
 
 render(){
@@ -257,35 +215,51 @@ render(){
 
       <h4>Pickup Details:</h4>
       <div class="form-row">
+
+          <div class="form-group">
+            <input 
+                list="pickup-data" 
+                type="text" 
+                class="form-control" 
+                placeholder="Pickup Code"
+                name={this.state.name} 
+                value={this.state.selected} 
+                // onChange={(value)=> this.setState({campPickupFacility:value.target.value})}
+                onChange={this.handleChange.bind(this)}
+                // onKeyDown={this.handleChange.bind(this)}
+              /> 
+
+            <datalist id="pickup-data">
+                {
+                  this.state.listWarehouse.map((warehouse) => {
+                    // console.log(warehouse.warehouseName)
+                    // console.log("warehouse", warehouse)
+                    console.log("ind", warehouse)
+                    // return <WarehouseFill key={i} value={warehouse.warehouseName}/>
+                    return  <select>
+                              <option value={warehouse.id} name={warehouse.id} >{warehouse.id}-{warehouse.warehouseCode}</option>
+                            </select>
+                  })
+                } 
+            </datalist>
+            </div>
+
+
+
+
+
         <div class="form-group">
-
-
         <input 
-            list="pickup-data" 
+            // list="pickup-data" 
             type="text" 
             class="form-control" 
             placeholder="Pickup Facility"
-            name={this.state.name} 
-            value={this.state.selected} 
-            // onChange={(value)=> this.setState({campPickupFacility:value.target.value})}
-            onChange={this.handleChange.bind(this)}
+            // name={this.state.name} 
+            value={this.state.campPickupFacility} 
+            onChange={(value)=> this.setState({campPickupFacility:value.target.value})}
+            // onChange={this.handleChange.bind(this)}
             // onKeyDown={this.onKeyDown}
           /> 
-
-        <datalist id="pickup-data">
-            {
-              this.state.listWarehouse.map((warehouse, ind) => {
-                // console.log(warehouse.warehouseName)
-                // console.log("warehouse", warehouse)
-                console.log("ind", ind)
-                // return <WarehouseFill key={i} value={warehouse.warehouseName}/>
-                return  <select>
-                          <option value={warehouse.id} name={warehouse.id} >{warehouse.id}</option>
-                        </select>
-              })
-            } 
-        </datalist>
-
         </div>
       
         <div class="form-group ">          
@@ -297,9 +271,8 @@ render(){
             placeholder="Pickup Address" 
             value={this.state.campPickupAddress} 
             onChange={(value)=> this.setState({campPickupAddress:value.target.value})}
-            // onChange={this.handleChange}
           /> 
-           {/* {this.autoFill()} */}
+          
           
         </div>  
         <div class="form-group ">          
@@ -447,6 +420,34 @@ render(){
 
       <h4>Delivery Details:</h4>
       <div class="form-row ">
+
+
+      <div class="form-group">
+            <input 
+                list="delivery-data" 
+                type="text" 
+                class="form-control" 
+                placeholder="Delivery Code"
+                value={this.state.selectedDelivery} 
+                // onChange={(value)=> this.setState({campPickupFacility:value.target.value})}
+                onChange={this.handleChangeDelivery.bind(this)}
+                // onKeyDown={this.handleChange.bind(this)}
+              /> 
+
+            <datalist id="delivery-data">
+                {
+                  this.state.listWarehouse.map((warehouse) => {
+                    console.log("ind", warehouse)
+                    // return <WarehouseFill key={i} value={warehouse.warehouseName}/>
+                    return  <select>
+                              <option value={warehouse.id} name={warehouse.id} >{warehouse.id}-{warehouse.warehouseCode}</option>
+                            </select>
+                  })
+                } 
+            </datalist>
+            </div>
+
+
         <div class="form-group ">
           <input 
             type="text" 

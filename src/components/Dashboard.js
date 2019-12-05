@@ -37,7 +37,7 @@ class Dashboard extends React.Component {
             <Route path="/dispatch-list" component={DispatchList} />
             <Route path="/carrier-list" component={CarrierList} />
             <Route path="/warehouse-list" component={WarehouseList} />
-            <Route exact path="*" component={() => "404 NOT FOUND"} />
+            {/* <Route exact path="*" component={() => "404 NOT FOUND"} /> */}
           </Switch>
         </Router>
       </Fragment>

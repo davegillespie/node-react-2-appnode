@@ -92,7 +92,7 @@ async componentDidMount() {
                 <Route exact path="/changepasswordconfirm" render={(props) => <ChangePasswordConfirm {...props} auth={authProps} />} />
                 <Route exact path="/welcome" render={(props) => <Welcome {...props} auth={authProps} />} />
               
-                <Route exact path="*" component={() => "404 NOT FOUND"} />
+                {/* <Route exact path="*" component={() => "404 NOT FOUND"} /> */}
               </Switch>
               </div>
             </div>

@@ -3,20 +3,8 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 // import { BrowserRouter as Router, Route, Link , Switch } from "react-router-dom";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Form from './module/form';
-import List from './module/list';
-import Edit from './module/edit';
-import CarrierEdit from './module/carrierEdit';
-import CarrierForm from './module/carrierForm';
-import WarehouseEdit from './module/warehouseEdit';
-import WarehouseForm from './module/warehouseForm';
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
-import ShipmentList from './module/shipmentList';
-import DispatchList from './module/dispatchList';
-import CarrierList from './module/carrierList';
-import WarehouseList from './module/warehouseList';
-import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 
@@ -28,6 +16,7 @@ import ForgotPasswordVerification from './components/auth/ForgotPasswordVerifica
 import ChangePassword from './components/auth/ChangePassword';
 import ChangePasswordConfirm from './components/auth/ChangePasswordConfirm';
 import Welcome from './components/auth/Welcome';
+import Dashboard from "./components/Dashboard";
 
 class App extends Component  {
 
@@ -87,25 +76,13 @@ async componentDidMount() {
         </nav> */}
         <Navbar auth={authProps}/>
         <div className="app-side">
-         <Sidebar />
-
+          
+        <Route path="/app" render={(props) => (this.state.isAuthenticated === true ? <Dashboard {...props} /> : <Redirect to='/login' />)} />
             <div class="container py-4 max-width">
               <div class="row">
+              
               <Switch>
-                <Route path="/list" render={(props) => <List {...props} module={authProps} />} />
-                <Route path="/form" render={(props) => <Form {...props} module={authProps} />} />
-                <Route path="/edit/:id" render={(props) => <Edit {...props} module={authProps} />} />
-                <Route path="/carrier-edit/:id" render={(props) => <CarrierEdit {...props} module={authProps} />} />
-                <Route path="/carrier-form" render={(props) => <CarrierForm {...props} module={authProps} />} />
-                <Route path="/warehouse-edit/:id" render={(props) => <WarehouseEdit {...props} module={authProps} />} />
-                <Route path="/warehouse-form" render={(props) => <WarehouseForm {...props} module={authProps} />} />
-
-                <Route path="/shipment-list" render={(props) => <ShipmentList {...props} module={authProps} />} />
-                <Route path="/dispatch-list" render={(props) => <DispatchList {...props} module={authProps} />} />
-                <Route path="/carrier-list" render={(props) => <CarrierList {...props} module={authProps} />} />
-                <Route path="/warehouse-list" render={(props) => <WarehouseList {...props} module={authProps} />} />
-                
-
+               
                 <Route exact path="/" render={(props) => <Home {...props} auth={authProps} />} />
                 <Route exact path="/login" render={(props) => <LogIn {...props} auth={authProps} />} />
                 <Route exact path="/register" render={(props) => <Register {...props} auth={authProps} />} />
@@ -115,6 +92,7 @@ async componentDidMount() {
                 <Route exact path="/changepasswordconfirm" render={(props) => <ChangePasswordConfirm {...props} auth={authProps} />} />
                 <Route exact path="/welcome" render={(props) => <Welcome {...props} auth={authProps} />} />
               
+                <Route exact path="*" component={() => "404 NOT FOUND"} />
               </Switch>
               </div>
             </div>
